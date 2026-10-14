@@ -1,12 +1,15 @@
 #!/bin/sh
 
-while ! mariadb -h mariadb -u${SQL_USER} -p${SQL_PASSWORD} ${SQL_DATABASE} &>/dev/null; do
+WP_ADMIN_PASSWORD=$(cat /run/secrets/credentials)
+DB_PASSWORD=$(cat /run/secrets/db_password)
+
+while ! mariadb -h mariadb -u${SQL_USER} -p${DB_PASSWORD} ${SQL_DATABASE} &>/dev/null; do
     sleep 2
 done
 
 if [ ! -f "wp-config.php" ]; then
     wp core download --allow-root
-    wp config create --dbname="${SQL_DATABASE}" --dbuser="${SQL_USER}" --dbpass="${SQL_PASSWORD}" --dbhost=mariadb --allow-root
+    wp config create --dbname="${SQL_DATABASE}" --dbuser="${SQL_USER}" --dbpass="${DB_PASSWORD}" --dbhost=mariadb --allow-root
 fi
 
 if ! wp core is-installed --allow-root; then

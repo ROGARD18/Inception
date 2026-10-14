@@ -1,5 +1,8 @@
 #!/bin/sh
 
+SQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+SQL_PASSWORD=$(cat /run/secrets/db_password)
+
 mkdir -p /run/mysld /var/run/mysqld
 chown -R mysql:mysql /run/mysqld /var/run/mysqld /var/lib/mysql
 

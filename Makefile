@@ -20,6 +20,6 @@ fclean: clean
 	@rm -rf $(DATA_DIR)
 	docker system prune -af --volumes
 
-re: fclean up
+re: fclean all
 
 .PHONY: all up down clean fclean re
